@@ -130,6 +130,23 @@
         }
         .mobile-menu.open { transform: translateX(0); }
 
+        /* Menu backdrop blur overlay */
+        .menu-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 35;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .menu-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         /* Form */
         .input-glow:focus {
             outline: none;
@@ -172,6 +189,9 @@
             </button>
         </div>
     </nav>
+
+    <!-- Menu Backdrop -->
+    <div id="menuBackdrop" class="menu-backdrop"></div>
 
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu fixed inset-y-0 right-0 w-full bg-black/98 z-40 flex flex-col items-center justify-center gap-8 text-2xl font-medium">
@@ -429,7 +449,7 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <a href="#" class="text-2xl font-black">MODUS</a>
             <div class="flex gap-8 text-sm text-white/50">
-                <a href="mailto:hello@modus.agency" class="hover:text-accent transition">hello@modus.agency</a>
+                <a href="mailto:M0DUSagency@outlook.com" class="hover:text-accent transition">M0DUSagency@outlook.com</a>
                 <a href="#" class="hover:text-accent transition">Twitter</a>
                 <a href="#" class="hover:text-accent transition">LinkedIn</a>
                 <a href="#" class="hover:text-accent transition">Dribbble</a>
@@ -451,11 +471,20 @@
         // Mobile menu
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
+        const menuBackdrop = document.getElementById('menuBackdrop');
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
+            menuBackdrop.classList.toggle('open');
         });
         document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                menuBackdrop.classList.remove('open');
+            });
+        });
+        menuBackdrop.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            menuBackdrop.classList.remove('open');
         });
 
         // Scroll reveal
